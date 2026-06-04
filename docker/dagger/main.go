@@ -177,7 +177,7 @@ func (m *Docker) Build(
         // 第一个 tag 的 Publish 会触发真正的构建和图层(Layers)上传；
         // 后续 tag 的 Publish 瞬间完成，仅推送轻量级的 Manifest 关联信息。
         for _, addr := range targetAddresses {
-            _, err := builtContainer.Publish(ctx, addr)
+            _, err := builtContainer.Publish(ctx, addr, dagger.ContainerPublishOpts{OciMediaTypes: true})
             if err != nil {
                 return "", fmt.Errorf("❌ 镜像推送失败 [%s]: %w", addr, err)
             }
